@@ -122,7 +122,7 @@ val commonSettings = Def.settings(
     }
     .toList
     .flatten,
-  scalaVersion := Scala211,
+  scalaVersion := "0.21.0-RC1",
   crossScalaVersions := Scala211 :: "2.12.10" :: "2.13.1" :: Nil,
   scalacOptions in (Compile, doc) ++= {
     val tag = tagOrHash.value
@@ -181,7 +181,7 @@ lazy val msgpack4zCore = CrossProject(
       "com.github.xuwei-k" %% "zeroapply-scalaz" % "0.2.3" % "provided",
       "com.github.scalaprops" %%% "scalaprops" % scalapropsVersion % "test",
       "com.github.scalaprops" %%% "scalaprops-scalaz" % scalapropsVersion % "test",
-    )
+    ),
   )
   .enablePlugins(
     sbtbuildinfo.BuildInfoPlugin
@@ -192,7 +192,8 @@ lazy val msgpack4zCore = CrossProject(
       "com.github.xuwei-k" % "msgpack4z-api" % "0.2.0",
       "com.github.xuwei-k" % "msgpack4z-java06" % "0.2.0" % "test",
       "com.github.xuwei-k" %% "msgpack4z-native" % msgpack4zNativeVersion % "test",
-    )
+    ),
+    libraryDependencies := libraryDependencies.value.map(_.withDottyCompat(scalaVersion.value)),
   )
   .jsSettings(
     scalacOptions += {
